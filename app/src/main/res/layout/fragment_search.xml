@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/searchLL"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#eee"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:hint="Enter a city name..."
+            android:inputType="textCapWords"
+            android:textStyle="italic" />
+
+        <ImageView
+            android:id="@+id/cancelIV"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:src="@drawable/cancel_icon" />
+
+
+    </LinearLayout>
+
+
+    <View
+        android:id="@+id/separatorView"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#cc0000"
+        app:layout_constraintTop_toBottomOf="@+id/searchLL" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/locationsRV"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/separatorView" />
+
+    <ProgressBar
+        android:id="@+id/loadingPB"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:layout_constraintBottom_toBottomOf="@+id/locationsRV"
+        app:layout_constraintLeft_toLeftOf="@+id/locationsRV"
+        app:layout_constraintRight_toRightOf="@+id/locationsRV"
+        app:layout_constraintTop_toTopOf="@+id/locationsRV" />
+
+    <TextView
+        android:id="@+id/loadingTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="Populating cities - please wait"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loadingPB" />
+
+
+</android.support.constraint.ConstraintLayout>
