@@ -60,7 +60,6 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.CitiesAdap
             @Override
             public void onClick(View view) {
                 mActivity.displayMapFragment(cities.get(holder.getAdapterPosition()));
-                Toast.makeText(mActivity, "place chosen = " +  cities.get(holder.getAdapterPosition()).getCityName() + ", id chosen =  " + cities.get(holder.getAdapterPosition()).get_id(), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -80,11 +79,6 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.CitiesAdap
         return cities.size();
     }
 
-    @Override
-    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
-        Log.d("TAG", "onDetachedFromRecyclerView");
-        super.onDetachedFromRecyclerView(recyclerView);
-    }
 
     public class CitiesAdapterViewHolder extends RecyclerView.ViewHolder {
         private TextView cityName;
