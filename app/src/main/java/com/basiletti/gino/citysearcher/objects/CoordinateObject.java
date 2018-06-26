@@ -1,28 +1,28 @@
 package com.basiletti.gino.citysearcher.objects;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CoordinateObject {
 
-    @SerializedName("lon")
-    private double longitude;
+    @JsonProperty("lon")
+    private double lon;
 
-    @SerializedName("lat")
-    private double latitude;
+    @JsonProperty("lat")
+    private double lat;
 
     public double getLongitude() {
-        return longitude;
+        return lon;
     }
 
     public void setLongitude(double longitude) {
-        this.longitude = longitude;
+        this.lon = longitude;
     }
 
     public double getLatitude() {
-        return latitude;
+        return lat;
     }
 
     public void setLatitude(double latitude) {
-        this.latitude = latitude;
+        this.lat = latitude;
     }
 }

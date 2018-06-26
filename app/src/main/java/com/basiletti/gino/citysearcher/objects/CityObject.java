@@ -1,55 +1,55 @@
 package com.basiletti.gino.citysearcher.objects;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CityObject {
 
-    @SerializedName("country")
-    private String countryCode;
+    @JsonProperty("country")
+    private String country;
 
-    @SerializedName("name")
-    private String cityName;
+    @JsonProperty("name")
+    private String name;
 
-    @SerializedName("_id")
-    private String countryID;
+    @JsonProperty("_id")
+    private String _id;
 
-    @SerializedName("coord")
-    private CoordinateObject coordinateObject;
+    @JsonProperty("coord")
+    private CoordinateObject coord;
 
     public CityObject() {
     }
 
 
     public String getCityName() {
-        return cityName;
+        return name;
     }
 
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
+    public void setCityName(String name) {
+        this.name = name;
     }
 
-    public String getCountryCode() {
-        return countryCode;
+    public String getCountry() {
+        return country;
     }
 
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
-    public String getCountryID() {
-        return countryID;
+    public String get_id() {
+        return _id;
     }
 
-    public void setCountryID(String countryID) {
-        this.countryID = countryID;
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public CoordinateObject getCoordinateObject() {
-        return coordinateObject;
+        return coord;
     }
 
-    public void setCoordinateObject(CoordinateObject coordinateObject) {
-        this.coordinateObject = coordinateObject;
+    public void setCoordinateObject(CoordinateObject coord) {
+        this.coord = coord;
     }
 }
 

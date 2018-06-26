@@ -22,10 +22,19 @@ import android.widget.Toast;
 
 import com.basiletti.gino.citysearcher.adapters.CitiesAdapter;
 import com.basiletti.gino.citysearcher.objects.CityObject;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.databind.DeserializationConfig;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
@@ -153,16 +162,62 @@ public class SearchFragment extends Fragment {
 
         @Override
         protected ArrayList<CityObject> /*TreeMap<String, ArrayList<CityObject>>*/ doInBackground(Void... params) {
-            // Runs on the background thread
-            ArrayList<CityObject> jsonData = loadJsonAsync(activityWeakReference.get());
-            if (jsonData != null) {
-                Collections.sort(jsonData, new Comparator<CityObject>() {
-                    @Override
-                    public int compare(final CityObject city1, final CityObject city2) {
-                        return city1.getCityName().compareTo(city2.getCityName());
+            ArrayList<CityObject> cities = new ArrayList<>();
+
+            try {
+                AssetManager assetManager = activityWeakReference.get().getAssets();
+                InputStream is = assetManager.open("cities.json");
+
+                JsonParser parser = new JsonFactory().createParser(is);
+                ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                JsonToken token = parser.nextToken();
+
+                // Try find at least one object or array.
+                while (!JsonToken.START_ARRAY.equals(token) && token != null && !JsonToken.START_OBJECT.equals(token)) {
+                    parser.nextToken();
+                }
+
+                // No content found
+                if (token == null) {
+                    return null;
+                }
+
+                boolean scanMore = false;
+
+                while (true) {
+                    // If the first token is the start of object ->
+                    // the response contains only one object (no array)
+                    // do not try to get the first object from array.
+                    try {
+                        if (!JsonToken.START_OBJECT.equals(token) || scanMore) {
+                            token = parser.nextToken();
+                        }
+                        if (!JsonToken.START_OBJECT.equals(token)) {
+                            break;
+                        }
+
+                        CityObject node = mapper.readValue(parser, CityObject.class);
+                        cities.add(node);
+                        Log.d("TAG", "node content = " + node.toString());
+
+                        scanMore = true;
+
+
+                    } catch (JsonParseException e) {
+                        Log.d("TAG", "error = " + e.toString());
                     }
-                });
-            }
+                }
+
+
+//            ArrayList<CityObject> jsonData = loadJsonAsync(activityWeakReference.get());
+                //            if (jsonData != null) {
+//                Collections.sort(jsonData, new Comparator<CityObject>() {
+//                    @Override
+//                    public int compare(final CityObject city1, final CityObject city2) {
+//                        return city1.getCityName().compareTo(city2.getCityName());
+//                    }
+//                });
+//            }
 
            /* HashMap<String, ArrayList<CityObject>> citiesHashMap = new HashMap<>();
             TreeMap<String, ArrayList<CityObject>> cityTreeMap = new TreeMap<>();
@@ -189,19 +244,26 @@ public class SearchFragment extends Fragment {
             return cityTreeMap;
             */
 
-           return jsonData;
+//           return jsonData;
+            } catch (Exception e) {
+                Log.d("TAG", "exception =  " + e.toString());
+            }
+            return cities;
+
         }
 
         @Override
         protected void onPostExecute(ArrayList<CityObject> citiesList) {
-            progressBar.get().setVisibility(View.GONE);
-            loadingTV.get().setVisibility(View.GONE);
-            searchLL.get().setVisibility(View.VISIBLE);
+            Toast.makeText(activityWeakReference.get(), "onPostExecute", Toast.LENGTH_LONG).show();
+            if (citiesList != null) {
+                progressBar.get().setVisibility(View.GONE);
+                loadingTV.get().setVisibility(View.GONE);
+                searchLL.get().setVisibility(View.VISIBLE);
 
-            searchFragmentWeakReference.get().cities = citiesList;
-            searchFragmentWeakReference.get().citiesAdapter.replaceData(citiesList);
-            Toast.makeText(activityWeakReference.get(), "all done. Size of unique city names = " + citiesList.size(), Toast.LENGTH_LONG).show();
-
+                searchFragmentWeakReference.get().cities = citiesList;
+                searchFragmentWeakReference.get().citiesAdapter.replaceData(citiesList);
+                Toast.makeText(activityWeakReference.get(), "all done. Size of unique city names = " + citiesList.size(), Toast.LENGTH_LONG).show();
+            }
         }
 
     }

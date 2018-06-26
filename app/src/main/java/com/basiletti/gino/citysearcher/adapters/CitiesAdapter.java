@@ -1,9 +1,7 @@
 package com.basiletti.gino.citysearcher.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +13,6 @@ import com.basiletti.gino.citysearcher.R;
 import com.basiletti.gino.citysearcher.objects.CityObject;
 
 import java.util.ArrayList;
-import java.util.TreeMap;
 
 public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.CitiesAdapterViewHolder> {
     final private Context mContext;
@@ -44,9 +41,17 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.CitiesAdap
     @Override
     public void onBindViewHolder(final CitiesAdapterViewHolder holder, int position) {
 
-        holder.cityName.setText(cities.get(holder.getAdapterPosition()).getCityName() + ", " + cities.get(holder.getAdapterPosition()).getCountryCode());
+        holder.cityName.setText(cities.get(holder.getAdapterPosition()).getCityName() + ", " + cities.get(holder.getAdapterPosition()).getCountry());
 
     }
+
+    @Override
+    public void onViewAttachedToWindow(@NonNull CitiesAdapterViewHolder holder) {
+        holder.setIsRecyclable(true);
+        super.onViewAttachedToWindow(holder);
+    }
+
+
 
     @Override
     public int getItemCount() {
