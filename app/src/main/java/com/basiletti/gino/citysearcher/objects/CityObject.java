@@ -1,8 +1,11 @@
 package com.basiletti.gino.citysearcher.objects;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CityObject implements Comparable<CityObject> {
+public class CityObject implements Comparable<CityObject>, Parcelable {
 
     @JsonProperty("country")
     private String country;
@@ -26,6 +29,36 @@ public class CityObject implements Comparable<CityObject> {
         this.coord = coord;
     }
 
+
+    protected CityObject(Parcel in) {
+        country = in.readString();
+        name = in.readString();
+        _id = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(country);
+        dest.writeString(name);
+        dest.writeString(_id);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<CityObject> CREATOR = new Creator<CityObject>() {
+        @Override
+        public CityObject createFromParcel(Parcel in) {
+            return new CityObject(in);
+        }
+
+        @Override
+        public CityObject[] newArray(int size) {
+            return new CityObject[size];
+        }
+    };
 
     public String getCityName() {
         return name;
@@ -67,5 +100,7 @@ public class CityObject implements Comparable<CityObject> {
             return country.compareTo(o.getCountry());
         }
     }
+
+
 }
 

@@ -11,17 +11,14 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.basiletti.gino.citysearcher.adapters.CitiesAdapter;
 import com.basiletti.gino.citysearcher.objects.CityObject;
@@ -50,14 +47,14 @@ public class SearchFragment extends Fragment {
     LinearLayout mSearchLL, mNoResultsLL;
     EditText mSearchET;
     TextView mLoadingTV;
-    Activity mActivity;
+    MainActivity mActivity;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
-        mActivity = getActivity();
+        mActivity = (MainActivity) getActivity();
 
         findViews(view);
         setupAdapter();
@@ -131,7 +128,7 @@ public class SearchFragment extends Fragment {
 
 
     private void setupAdapter() {
-        citiesAdapter = new CitiesAdapter(getActivity(), new ArrayList<CityObject>());
+        citiesAdapter = new CitiesAdapter(mActivity, new ArrayList<CityObject>());
         mLocationsRV.setAdapter(citiesAdapter);
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mLocationsRV.setLayoutManager(mLinearLayoutManager);

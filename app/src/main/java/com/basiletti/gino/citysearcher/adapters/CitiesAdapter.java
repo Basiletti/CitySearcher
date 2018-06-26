@@ -13,17 +13,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.basiletti.gino.citysearcher.MainActivity;
 import com.basiletti.gino.citysearcher.R;
+import com.basiletti.gino.citysearcher.enums.FragmentType;
 import com.basiletti.gino.citysearcher.objects.CityObject;
 
 import java.util.ArrayList;
 
 public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.CitiesAdapterViewHolder> {
-    final private Context mContext;
+    private MainActivity mActivity;
     private ArrayList<CityObject> cities;
 
-    public CitiesAdapter(Context context, ArrayList<CityObject> cities) {
-        mContext = context;
+    public CitiesAdapter(MainActivity activity, ArrayList<CityObject> cities) {
+        mActivity = activity;
         this.cities = cities;
     }
 
@@ -43,11 +45,11 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.CitiesAdap
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                     case MotionEvent.ACTION_MOVE:
-                        holder.baseLayoutCS.setBackgroundColor(ContextCompat.getColor(mContext, R.color.lightGray));
+                        holder.baseLayoutCS.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.lightGray));
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        holder.baseLayoutCS.setBackgroundColor(ContextCompat.getColor(mContext, R.color.white));
+                        holder.baseLayoutCS.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.white));
                         break;
                 }
                 return false;
@@ -57,7 +59,8 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.CitiesAdap
         holder.baseLayoutCS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, "place chosen = " +  cities.get(holder.getAdapterPosition()).getCityName() + ", id chosen =  " + cities.get(holder.getAdapterPosition()).get_id(), Toast.LENGTH_LONG).show();
+                mActivity.displayMapFragment(cities.get(holder.getAdapterPosition()));
+                Toast.makeText(mActivity, "place chosen = " +  cities.get(holder.getAdapterPosition()).getCityName() + ", id chosen =  " + cities.get(holder.getAdapterPosition()).get_id(), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -71,14 +74,6 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.CitiesAdap
         holder.cityName.setText(cities.get(holder.getAdapterPosition()).getCityName() + ", " + cities.get(holder.getAdapterPosition()).getCountry());
 
     }
-
-    @Override
-    public void onViewAttachedToWindow(@NonNull CitiesAdapterViewHolder holder) {
-        holder.setIsRecyclable(true);
-        super.onViewAttachedToWindow(holder);
-    }
-
-
 
     @Override
     public int getItemCount() {
