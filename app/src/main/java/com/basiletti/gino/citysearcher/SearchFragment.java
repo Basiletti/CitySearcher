@@ -47,7 +47,7 @@ public class SearchFragment extends Fragment {
     ImageView mCancelIV;
     RecyclerView mLocationsRV;
     ProgressBar mLoadingPB;
-    LinearLayout mSearchLL;
+    LinearLayout mSearchLL, mNoResultsLL;
     EditText mSearchET;
     TextView mLoadingTV;
     Activity mActivity;
@@ -88,10 +88,12 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (mSearchET.getText().toString().trim().length() > 0) {
+                if (mSearchET.getText().toString().length() > 0) {
                     mSearchET.setTypeface(null, Typeface.NORMAL);
+                    mCancelIV.setVisibility(View.VISIBLE);
                 } else {
                     mSearchET.setTypeface(null, Typeface.ITALIC);
+                    mCancelIV.setVisibility(View.INVISIBLE);
                 }
             }
 
@@ -117,6 +119,12 @@ public class SearchFragment extends Fragment {
 
             }
         }
+
+
+        int visibility = searchedCities.size() <= 0 ? View.VISIBLE : View.GONE;
+        mNoResultsLL.setVisibility(visibility);
+
+
         Collections.sort(searchedCities);
         citiesAdapter.replaceData(searchedCities);
     }
@@ -141,6 +149,7 @@ public class SearchFragment extends Fragment {
         mSearchLL = view.findViewById(R.id.searchLL);
         mLoadingTV = view.findViewById(R.id.loadingTV);
         mSearchET = view.findViewById(R.id.searchET);
+        mNoResultsLL = view.findViewById(R.id.noResultsLL);
     }
 
 
