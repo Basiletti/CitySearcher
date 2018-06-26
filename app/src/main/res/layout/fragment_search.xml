@@ -16,6 +16,7 @@
 
 
         <EditText
+            android:imeOptions="actionDone"
             android:id="@+id/searchET"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

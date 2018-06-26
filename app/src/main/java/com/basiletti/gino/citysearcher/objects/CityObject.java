@@ -2,7 +2,7 @@ package com.basiletti.gino.citysearcher.objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CityObject {
+public class CityObject implements Comparable<CityObject> {
 
     @JsonProperty("country")
     private String country;
@@ -17,6 +17,13 @@ public class CityObject {
     private CoordinateObject coord;
 
     public CityObject() {
+    }
+
+    public CityObject(String country, String name, String _id, CoordinateObject coord) {
+        this.country = country;
+        this.name = name;
+        this._id = _id;
+        this.coord = coord;
     }
 
 
@@ -50,6 +57,15 @@ public class CityObject {
 
     public void setCoordinateObject(CoordinateObject coord) {
         this.coord = coord;
+    }
+
+    @Override
+    public int compareTo(CityObject o) {
+        if (!name.equals(o.getCityName())) {
+            return name.compareTo(o.getCityName());
+        } else {
+            return country.compareTo(o.getCountry());
+        }
     }
 }
 
