@@ -10,6 +10,15 @@ public class CoordinateObject {
     @JsonProperty("lat")
     private double lat;
 
+    public CoordinateObject() {
+
+    }
+
+    public CoordinateObject(double lat, double lon) {
+        this.lon = lon;
+        this.lat = lat;
+    }
+
     public double getLongitude() {
         return lon;
     }
