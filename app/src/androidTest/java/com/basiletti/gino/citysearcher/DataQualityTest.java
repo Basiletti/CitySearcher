@@ -45,18 +45,6 @@ import static org.junit.Assert.fail;
 @RunWith(AndroidJUnit4.class)
 public class DataQualityTest {
 
-
-    @Test
-    @UiThread
-    public void myTest() {
-
-        Context appContext = InstrumentationRegistry.getTargetContext();
-
-        assertEquals("com.basiletti.gino.citysearcher", appContext.getPackageName());
-
-
-    }
-
     @Test
     public void checkJSONfileContents() {
         ArrayList<CityObject> cities = new ArrayList<>();
