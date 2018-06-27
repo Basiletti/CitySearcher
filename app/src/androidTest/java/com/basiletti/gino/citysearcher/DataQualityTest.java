@@ -73,6 +73,7 @@ public class DataQualityTest {
             assertThat(cities.size(), is(209557));
             assertThat(checkCityCount(cities, "Cardiff", null, 2), is(true));
             assertThat(checkCityCount(cities, "Swansea", "GB", 1), is(true));
+            assertThat(checkCityCount(cities, "dghsdghdfgdgdfg", null, 0), is(true));
 
         } catch (Exception e) {
             Log.d("TAG", "Exception e : " + e.toString());
