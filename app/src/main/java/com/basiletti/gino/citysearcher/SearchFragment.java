@@ -70,6 +70,8 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 mSearchET.setText("");
+
+                //Boolean check to ensure that the user can't search amongst an empty dataset (the UI/UX prevents this anyway, this is just to ensure its robustness)
                 if (citiesPopulated) {
                     filterList(null);
                 }
@@ -96,6 +98,7 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
+                //Boolean check to ensure that the user can't search amongst an empty dataset (the UI/UX prevents this anyway, this is just to ensure its robustness)
                 if (citiesPopulated) {
                     String searchText = mSearchET.getText().toString();
                     if (searchText.length() > 0) {
@@ -135,6 +138,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void loadJsonAsync() {
+        //Handle the loading of the JSON file off of the UI thread to ensure the screen doesn't lock up as soon as the app opens.
         new ProcessJsonTask(mActivity, mLoadingPB, mSearchLL, mLoadingTV, this).execute();
     }
 
@@ -209,6 +213,9 @@ public class SearchFragment extends Fragment {
             return cities;
         }
 
+
+        //Converts an arrayList of CityObjects to a TreeMap where the key is the city name & the value is an array of all city objects with that name.
+        //This is intended to speed up load times because TreeMaps load content in as by its sort criteria; but this may not be completely effective in this scenario.
         private TreeMap<String, ArrayList<CityObject>> convertToTreeMap(ArrayList<CityObject> citiesArray) {
             TreeMap<String, ArrayList<CityObject>> citiesTreeMap = new TreeMap<>();
 
@@ -242,6 +249,8 @@ public class SearchFragment extends Fragment {
         @Override
         protected void onPostExecute(TreeMap<String, ArrayList<CityObject>> citiesList) {
             if (citiesList != null) {
+
+                //Update the UI to enable the user to navigate through the list of cities; and display the entire list into the recyclerview (as requested).
                 progressBar.get().setVisibility(View.GONE);
                 loadingTV.get().setVisibility(View.GONE);
                 searchLL.get().setVisibility(View.VISIBLE);

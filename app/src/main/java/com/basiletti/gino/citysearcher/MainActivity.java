@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+
 import com.basiletti.gino.citysearcher.objects.CityObject;
 
 public class MainActivity extends AppCompatActivity {
@@ -46,9 +47,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        //If we have the map framgent open, pop the stack / return to the one underneath it (which should always be the search fragment; as it is the only other fragment in the project & appears immediately before it).
         if (getSupportFragmentManager().findFragmentByTag(getString(R.string.map_fragment)) != null) {
             getSupportFragmentManager().popBackStack(getString(R.string.map_fragment), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
         } else {
+
+            //Otherwise, just minimise/back out of the app as there is nothing else to 'back onto'.
             Intent startMain = new Intent(Intent.ACTION_MAIN);
             startMain.addCategory(Intent.CATEGORY_HOME);
             startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

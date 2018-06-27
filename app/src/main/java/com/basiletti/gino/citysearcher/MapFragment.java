@@ -23,6 +23,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private MapView mapView;
     private CityObject cityObject;
     Activity mActivity;
+    private final float ZOOM_LEVEL = 8.0f;
 
     public static MapFragment newInstance(CityObject cityObject) {
         Bundle bundle = new Bundle();
@@ -55,19 +56,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mapView.getMapAsync(this);
 
 
-
         return view;
     }
-
 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.clear();
+        mMap.clear(); //Called to remove any markers placed from previously accessing the map fragment IE clicking a city in the last, then backpressing, then doing it again.
 
         LatLng mapLocation = new LatLng(cityObject.getCoordinateObject().getLatitude(), cityObject.getCoordinateObject().getLongitude());
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(mapLocation).zoom(8).build();
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(mapLocation).zoom(ZOOM_LEVEL).build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         mMap.addMarker(new MarkerOptions().position(mapLocation).title(cityObject.getCityName() + ", " + cityObject.getCountry())).showInfoWindow();
 
